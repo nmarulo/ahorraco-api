@@ -1,0 +1,45 @@
+### Crear porra - Código de organizador manual
+POST {{url}}/pools
+Content-Type: application/json
+
+{
+  "name": "prueba 1",
+  "monthlyFee": 999.00,
+  "numParticipants": 5,
+  "startDate": "2026-08-19",
+  "paymentDueDay": 5,
+  "notes": "pago por bizum",
+  "managementCode": "Hola mundo"
+}
+
+>> ./pools_management_code_manual.200.json
+
+### Crear porra - Código de organizador automatico
+POST {{url}}/pools
+Content-Type: application/json
+
+{
+  "name": "prueba 2",
+  "monthlyFee": 999.00,
+  "numParticipants": 5,
+  "startDate": "2026-08-19",
+  "paymentDueDay": 5,
+  "notes": "pago por bizum"
+}
+
+>> ./pools_management_code_auto.200.json
+
+### Crear porra - Fecha de inicio numérico
+POST {{url}}/pools
+Content-Type: application/json
+
+{
+  "name": "prueba 3",
+  "monthlyFee": 999.00,
+  "numParticipants": 5,
+  "startDate": 1787179038,
+  "paymentDueDay": 5,
+  "notes": "pago por bizum"
+}
+
+>> ./pools_start_date_timestamp.200.json
