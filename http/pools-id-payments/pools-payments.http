@@ -66,3 +66,49 @@ Content-Type: application/json
 GET {{url}}/pools/{{poolPublicId}}/payments/participant/{{participantPublicId}}
 
 >> ./pools_payments_by_participant.200.json
+
+### Confirmar la cuota - El organizador la da por recibida
+POST {{url}}/pools/{{poolPublicId}}/payments/confirm-received
+Content-Type: application/json
+X-Management-Code: {{managementCode}}
+
+{
+  "participantPublicId": "{{participantPublicId}}",
+  "month": "2026-09-01"
+}
+
+>> ./pools_payments_confirm_received.200.json
+
+### Confirmar la cuota - De alguien que no la había marcado
+POST {{url}}/pools/{{poolPublicId}}/payments/confirm-received
+Content-Type: application/json
+X-Management-Code: {{managementCode}}
+
+{
+  "participantPublicId": "{{participantPublicId}}",
+  "month": "2026-09-01"
+}
+
+>> ./pools_payments_confirm_received_without_marked.200.json
+
+### Confirmar la cuota - Sin el código de gestión
+POST {{url}}/pools/{{poolPublicId}}/payments/confirm-received
+Content-Type: application/json
+
+{
+  "participantPublicId": "{{participantPublicId}}",
+  "month": "2026-09-01"
+}
+
+>> ./pools_payments_confirm_received_without_management_code.401.json
+
+### Quién ha pagado este mes - Listado del organizador
+GET {{url}}/pools/{{poolPublicId}}/payments?month=2026-09-01
+X-Management-Code: {{managementCode}}
+
+>> ./pools_payments_by_month.200.json
+
+### Quién ha pagado este mes - Sin el código de gestión
+GET {{url}}/pools/{{poolPublicId}}/payments?month=2026-09-01
+
+>> ./pools_payments_by_month_without_management_code.401.json

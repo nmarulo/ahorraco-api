@@ -10,7 +10,9 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class FindAllPaymentRes {
+public class FindAllByMonthPaymentRes {
+    
+    private LocalDate month;
     
     private List<PaymentRes> payments;
     
@@ -19,8 +21,13 @@ public class FindAllPaymentRes {
     @NoArgsConstructor
     public static class PaymentRes {
         
-        private LocalDate month;
+        private String participantPublicId;
         
+        private String fullName;
+        
+        /**
+         * Indica si el participante ha dicho que ya pagó.
+         */
         private boolean marked;
         
         /**

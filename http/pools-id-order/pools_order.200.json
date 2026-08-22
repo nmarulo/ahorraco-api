@@ -1,22 +1,24 @@
 {
   "currentMonth": "2026-08-01",
+  "confirmedPayments": 2,
+  "expectedPayments": 2,
   "turns": [ {
     "position": 1,
-    "participantPublicId": "1e941709-76c0-4199-bcd8-83cc60c8b2e0",
+    "participantPublicId": "952a3756-08e5-41b3-9fde-803d8125292e",
     "fullName": "Participante 1",
+    "month": "2026-08-01",
+    "pinned": true
+  }, {
+    "position": 2,
+    "participantPublicId": "c8d6c82c-f454-4b54-9103-09dd391bf340",
+    "fullName": "Participante 2",
     "month": "2026-09-01",
     "pinned": false
   }, {
-    "position": 2,
-    "participantPublicId": "eb772f97-a2a0-4f2b-8244-ba4781b06961",
-    "fullName": "Participante 2",
-    "month": "2026-10-01",
-    "pinned": false
-  }, {
     "position": 3,
-    "participantPublicId": "d2badfdd-6993-448a-a980-0d8e22654c38",
+    "participantPublicId": "c9646d9f-0ea1-422e-9b50-e912ba66af26",
     "fullName": "Participante 3",
-    "month": "2026-11-01",
+    "month": "2026-10-01",
     "pinned": false
   } ]
 }

@@ -3,7 +3,6 @@ package dev.nmarulo.ahorraco_api.app.turns;
 import dev.nmarulo.ahorraco_api.app.turns.dtos.CreateDrawRes;
 import dev.nmarulo.ahorraco_api.app.turns.dtos.FindOrderRes;
 
-import java.time.LocalDate;
 import java.util.List;
 
 public final class TurnMapper {
@@ -29,14 +28,6 @@ public final class TurnMapper {
                                          participant.getFullName(),
                                          turn.getMonth(),
                                          turn.isPinned());
-    }
-    
-    public static FindOrderRes toFindOrderRes(final List<Turn> turns, final LocalDate currentMonth) {
-        final var turnResList = turns.stream()
-                                     .map(TurnMapper::toOrderTurnRes)
-                                     .toList();
-        
-        return new FindOrderRes(currentMonth, turnResList);
     }
     
     public static FindOrderRes.TurnRes toOrderTurnRes(final Turn turn) {

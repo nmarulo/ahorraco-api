@@ -18,6 +18,16 @@ public class FindOrderRes {
     private LocalDate currentMonth;
     
     /**
+     * Cuotas confirmadas por el organizador.
+     */
+    private long confirmedPayments;
+    
+    /**
+     * Cuotas esperadas ese mes.
+     */
+    private long expectedPayments;
+    
+    /**
      * Vacío en caso de no haberse hecho el sorteo.
      */
     private List<TurnRes> turns;

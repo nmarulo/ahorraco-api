@@ -1,0 +1,14 @@
+{
+  "month": "2026-08-01",
+  "payments": [ {
+    "participantPublicId": "c8d6c82c-f454-4b54-9103-09dd391bf340",
+    "fullName": "Participante 2",
+    "marked": true,
+    "confirmed": true
+  }, {
+    "participantPublicId": "c9646d9f-0ea1-422e-9b50-e912ba66af26",
+    "fullName": "Participante 3",
+    "marked": false,
+    "confirmed": true
+  } ]
+}

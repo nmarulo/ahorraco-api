@@ -1,0 +1,7 @@
+{
+  "error": {
+    "detail": "El código de gestión no es el de esta porra.",
+    "status": 401,
+    "title": "Unauthorized"
+  }
+}

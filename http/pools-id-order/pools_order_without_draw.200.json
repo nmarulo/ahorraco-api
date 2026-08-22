@@ -1,4 +1,6 @@
 {
   "currentMonth": "2026-08-01",
+  "confirmedPayments": 0,
+  "expectedPayments": 0,
   "turns": [ ]
 }

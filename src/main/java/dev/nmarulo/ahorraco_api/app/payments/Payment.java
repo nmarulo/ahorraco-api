@@ -42,6 +42,12 @@ public class Payment {
     @Column(name = "marked", nullable = false)
     private boolean marked;
     
+    /**
+     * Confirmación del organizador.
+     */
+    @Column(name = "confirmed", nullable = false)
+    private boolean confirmed;
+    
     @CreatedDate
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;

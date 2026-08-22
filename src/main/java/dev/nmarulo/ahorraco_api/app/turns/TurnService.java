@@ -2,6 +2,7 @@ package dev.nmarulo.ahorraco_api.app.turns;
 
 import dev.nmarulo.ahorraco_api.app.participants.Participant;
 import dev.nmarulo.ahorraco_api.app.participants.ParticipantRepository;
+import dev.nmarulo.ahorraco_api.app.payments.PaymentRepository;
 import dev.nmarulo.ahorraco_api.app.pools.Pool;
 import dev.nmarulo.ahorraco_api.app.turns.dtos.CreateDrawReq;
 import dev.nmarulo.ahorraco_api.app.turns.dtos.CreateDrawRes;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.security.SecureRandom;
+import java.time.LocalDate;
 import java.util.*;
 
 @Service
@@ -25,6 +27,8 @@ public class TurnService {
     private static final SecureRandom RANDOM = new SecureRandom();
     
     private final TurnRepository turnRepository;
+    
+    private final PaymentRepository paymentRepository;
     
     private final ParticipantRepository participantRepository;
     
@@ -59,8 +63,26 @@ public class TurnService {
     public FindOrderRes findOrder(final UUID poolPublicId) {
         final var pool = this.accessPoolService.getByPublicId(poolPublicId);
         final var turns = this.turnRepository.findAllByPoolOrderByPositionAsc(pool);
+        final var response = new FindOrderRes();
+        LocalDate currentMonth = DateUtils.nowWithFirstDayMonth();
         
-        return TurnMapper.toFindOrderRes(turns, DateUtils.nowWithFirstDayMonth());
+        response.setCurrentMonth(currentMonth);
+        
+        final var confirmedPayments = this.paymentRepository.countByPoolAndMonthAndConfirmedIsTrue(pool, currentMonth);
+        
+        response.setConfirmedPayments(confirmedPayments);
+        
+        final var expectedPayments = expectedPayments(pool, turns, currentMonth);
+        
+        response.setExpectedPayments(expectedPayments);
+        
+        final var turnResList = turns.stream()
+                                     .map(TurnMapper::toOrderTurnRes)
+                                     .toList();
+        
+        response.setTurns(turnResList);
+        
+        return response;
     }
     
     private void checkDrawIsNotDone(final Pool pool) {
@@ -138,6 +160,22 @@ public class TurnService {
         }
         
         return turns;
+    }
+    
+    /**
+     * Todos los participantes menos quien cobra ese mes, que no paga la suya. Si el mes en curso
+     * cae fuera de la porra —o no se ha sorteado—, no hay cuotas que esperar.
+     */
+    private long expectedPayments(final Pool pool, final List<Turn> turns, final LocalDate currentMonth) {
+        final var isRunning = turns.stream()
+                                   .anyMatch(turn -> turn.getMonth()
+                                                         .isEqual(currentMonth));
+        
+        if (!isRunning) {
+            return 0;
+        }
+        
+        return pool.getNumParticipants() - 1L;
     }
     
 }
