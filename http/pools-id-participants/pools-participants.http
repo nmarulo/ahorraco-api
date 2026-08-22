@@ -1,0 +1,52 @@
+### Unirse a la porra - Con teléfono
+POST {{url}}/pools/{{poolPublicId}}/participants
+Content-Type: application/json
+
+{
+  "invitationToken": "{{invitationToken}}",
+  "fullName": "Nicolás Marulo",
+  "phone": "600 123 456"
+}
+
+>> ./pools_participants_join.201.json
+
+### Unirse a la porra - Sin teléfono, que es opcional
+POST {{url}}/pools/{{poolPublicId}}/participants
+Content-Type: application/json
+
+{
+  "invitationToken": "{{invitationToken}}",
+  "fullName": "Ana García"
+}
+
+### Unirse a la porra - Nombre ya cogido en esa porra
+POST {{url}}/pools/{{poolPublicId}}/participants
+Content-Type: application/json
+
+{
+  "invitationToken": "{{invitationToken}}",
+  "fullName": "nicolás marulo"
+}
+
+>> ./pools_participants_join_duplicated_name.400.json
+
+### Unirse a la porra - Sin el token del enlace
+POST {{url}}/pools/{{poolPublicId}}/participants
+Content-Type: application/json
+
+{
+  "fullName": "Alguien de fuera"
+}
+
+>> ./pools_participants_join_without_token.401.json
+
+### Quién se ha unido - Con el código de gestión, que añade los teléfonos
+GET {{url}}/pools/{{poolPublicId}}/participants
+X-Management-Code: {{managementCode}}
+
+>> ./pools_participants_as_organizer.200.json
+
+### Quién se ha unido - Sin código de gestión: la lista se ve igual, pero sin teléfonos
+GET {{url}}/pools/{{poolPublicId}}/participants
+
+>> ./pools_participants_without_management_code.200.json

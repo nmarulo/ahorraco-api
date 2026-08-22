@@ -1,0 +1,7 @@
+{
+  "error": {
+    "detail": "Ya hay alguien en la porra con ese nombre. Añade el apellido para distinguiros.",
+    "status": 400,
+    "title": "Bad Request"
+  }
+}

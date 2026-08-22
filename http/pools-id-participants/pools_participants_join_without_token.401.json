@@ -1,0 +1,7 @@
+{
+  "error": {
+    "detail": "Este enlace de invitación no vale o ya no existe.",
+    "status": 401,
+    "title": "Unauthorized"
+  }
+}
