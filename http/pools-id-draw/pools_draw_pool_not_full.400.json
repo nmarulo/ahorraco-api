@@ -1,0 +1,7 @@
+{
+  "error": {
+    "detail": "Todavía falta gente por unirse: hay 1 de 3.",
+    "status": 400,
+    "title": "Bad Request"
+  }
+}

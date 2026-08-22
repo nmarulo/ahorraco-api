@@ -1,0 +1,7 @@
+{
+  "error": {
+    "detail": "El sorteo de esta porra ya está hecho.",
+    "status": 400,
+    "title": "Bad Request"
+  }
+}

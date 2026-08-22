@@ -1,0 +1,21 @@
+{
+  "turns": [ {
+    "position": 1,
+    "participantPublicId": "aa0d8254-52ff-4f72-a5bf-e3e10b39d0ba",
+    "fullName": "Participante 1",
+    "month": "2026-09-01",
+    "pinned": true
+  }, {
+    "position": 2,
+    "participantPublicId": "a2062ffb-6768-4176-b17f-6a7feee58c26",
+    "fullName": "Participante 2",
+    "month": "2026-10-01",
+    "pinned": false
+  }, {
+    "position": 3,
+    "participantPublicId": "dcfbba09-fe2c-42e6-816e-599b03108047",
+    "fullName": "Participante 3",
+    "month": "2026-11-01",
+    "pinned": false
+  } ]
+}

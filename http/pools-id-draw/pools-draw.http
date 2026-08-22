@@ -1,0 +1,65 @@
+### Sortear el orden - Al azar entre todos
+POST {{url}}/pools/{{poolPublicId}}/draw
+Content-Type: application/json
+X-Management-Code: {{managementCode}}
+
+{
+  "organizerFirst": false
+}
+
+>> ./pools_draw.200.json
+
+### Sortear el orden - El organizador se reserva el primer turno
+POST {{url}}/pools/{{poolPublicId}}/draw
+Content-Type: application/json
+X-Management-Code: {{managementCode}}
+
+{
+  "organizerFirst": true,
+  "organizerPublicId": "{{participantPublicId}}"
+}
+
+>> ./pools_draw_organizer_first.200.json
+
+### Sortear el orden - Ya estaba sorteada
+POST {{url}}/pools/{{poolPublicId}}/draw
+Content-Type: application/json
+X-Management-Code: {{managementCode}}
+
+{
+  "organizerFirst": false
+}
+
+>> ./pools_draw_already_done.400.json
+
+### Sortear el orden - Con la porra a medio llenar
+POST {{url}}/pools/{{poolPublicId}}/draw
+Content-Type: application/json
+X-Management-Code: {{managementCode}}
+
+{
+  "organizerFirst": false
+}
+
+>> ./pools_draw_pool_not_full.400.json
+
+### Sortear el orden - Sin el código de gestión
+POST {{url}}/pools/{{poolPublicId}}/draw
+Content-Type: application/json
+
+{
+  "organizerFirst": false
+}
+
+>> ./pools_draw_without_management_code.401.json
+
+### Sortear el orden - Reservando el primer turno sin decir quién es el organizador
+POST {{url}}/pools/{{poolPublicId}}/draw
+Content-Type: application/json
+X-Management-Code: {{managementCode}}
+
+{
+  "organizerFirst": true
+}
+
+>> ./pools_draw_without_organizer.400.json
