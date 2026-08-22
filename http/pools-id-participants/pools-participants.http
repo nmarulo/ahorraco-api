@@ -30,7 +30,7 @@ Content-Type: application/json
 
 >> ./pools_participants_join_duplicated_name.400.json
 
-### Unirse a la porra - Sin el token del enlace
+### Unirse a la porra - Sin el campo del token del enlace
 POST {{url}}/pools/{{poolPublicId}}/participants
 Content-Type: application/json
 
@@ -38,7 +38,18 @@ Content-Type: application/json
   "fullName": "Alguien de fuera"
 }
 
->> ./pools_participants_join_without_token.401.json
+>> ./pools_participants_join_without_token.400.json
+
+### Unirse a la porra - Con un token que no es el de esta porra
+POST {{url}}/pools/{{poolPublicId}}/participants
+Content-Type: application/json
+
+{
+  "invitationToken": "NOESELBUENO",
+  "fullName": "Alguien de fuera"
+}
+
+>> ./pools_participants_join_wrong_token.401.json
 
 ### Quién se ha unido - Con el código de gestión, que añade los teléfonos
 GET {{url}}/pools/{{poolPublicId}}/participants
