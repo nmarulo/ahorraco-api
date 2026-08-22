@@ -1,0 +1,7 @@
+{
+  "error": {
+    "detail": "El organizador no existe en la lista de participantes.",
+    "status": 400,
+    "title": "Bad Request"
+  }
+}

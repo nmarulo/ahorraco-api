@@ -1,6 +1,6 @@
 {
   "error": {
-    "detail": "Para reservar el primer turno hay que decir cuál de los participantes es el organizador.",
+    "detail": "Para reservar el primer turno hay que indicar cuál de los participantes es el organizador.",
     "status": 400,
     "title": "Bad Request"
   }

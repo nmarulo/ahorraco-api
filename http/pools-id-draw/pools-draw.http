@@ -63,3 +63,15 @@ X-Management-Code: {{managementCode}}
 }
 
 >> ./pools_draw_without_organizer.400.json
+
+### Sortear el orden - Reservando el primer turno para alguien que no esta en la porra
+POST {{url}}/pools/{{poolPublicId}}/draw
+Content-Type: application/json
+X-Management-Code: {{managementCode}}
+
+{
+  "organizerFirst": true,
+  "organizerPublicId": "00000000-0000-0000-0000-000000000000"
+}
+
+>> ./pools_draw_unknown_organizer.400.json
