@@ -12,10 +12,14 @@ public final class DateUtils {
             return false;
         }
         
-        final var now = LocalDate.now()
-                                 .withDayOfMonth(1);
+        final var now = nowWithFirstDayMonth();
         
         return date.isEqual(now) || date.isAfter(now);
+    }
+    
+    public static LocalDate nowWithFirstDayMonth() {
+        return LocalDate.now()
+                        .withDayOfMonth(1);
     }
     
 }
