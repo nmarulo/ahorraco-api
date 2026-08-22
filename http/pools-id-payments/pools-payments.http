@@ -1,0 +1,68 @@
+### Marcar la cuota - El participante dice que ya pagó
+POST {{url}}/pools/{{poolPublicId}}/payments/mark-paid
+Content-Type: application/json
+
+{
+  "participantPublicId": "{{participantPublicId}}",
+  "month": "2026-09-01"
+}
+
+>> ./pools_payments_mark_paid.200.json
+
+### Marcar la cuota - Otra vez el mismo mes, que no cambia nada
+POST {{url}}/pools/{{poolPublicId}}/payments/mark-paid
+Content-Type: application/json
+
+{
+  "participantPublicId": "{{participantPublicId}}",
+  "month": "2026-09-01"
+}
+
+### Marcar la cuota - De quien cobra ese mes
+POST {{url}}/pools/{{poolPublicId}}/payments/mark-paid
+Content-Type: application/json
+
+{
+  "participantPublicId": "{{participantPublicId}}",
+  "month": "2026-09-01"
+}
+
+>> ./pools_payments_mark_paid_beneficiary.400.json
+
+### Marcar la cuota - Un mes que todavía no ha llegado
+POST {{url}}/pools/{{poolPublicId}}/payments/mark-paid
+Content-Type: application/json
+
+{
+  "participantPublicId": "{{participantPublicId}}",
+  "month": "2099-01-01"
+}
+
+>> ./pools_payments_mark_paid_future_month.400.json
+
+### Marcar la cuota - Un mes que no es de esta porra
+POST {{url}}/pools/{{poolPublicId}}/payments/mark-paid
+Content-Type: application/json
+
+{
+  "participantPublicId": "{{participantPublicId}}",
+  "month": "2020-01-01"
+}
+
+>> ./pools_payments_mark_paid_wrong_month.400.json
+
+### Marcar la cuota - Alguien que no está en la porra
+POST {{url}}/pools/{{poolPublicId}}/payments/mark-paid
+Content-Type: application/json
+
+{
+  "participantPublicId": "00000000-0000-0000-0000-000000000000",
+  "month": "2026-09-01"
+}
+
+>> ./pools_payments_mark_paid_unknown_participant.400.json
+
+### Mis cuotas - Las que tiene registradas un participante
+GET {{url}}/pools/{{poolPublicId}}/payments/participant/{{participantPublicId}}
+
+>> ./pools_payments_by_participant.200.json

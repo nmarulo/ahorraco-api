@@ -1,0 +1,7 @@
+{
+  "error": {
+    "detail": "Ese mes todavía no ha llegado.",
+    "status": 400,
+    "title": "Bad Request"
+  }
+}

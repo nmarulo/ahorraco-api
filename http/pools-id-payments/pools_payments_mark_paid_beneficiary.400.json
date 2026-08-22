@@ -1,0 +1,7 @@
+{
+  "error": {
+    "detail": "Quien cobra este mes no paga cuota.",
+    "status": 400,
+    "title": "Bad Request"
+  }
+}
