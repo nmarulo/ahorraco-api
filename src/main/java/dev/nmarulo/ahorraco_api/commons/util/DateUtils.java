@@ -13,8 +13,9 @@ public final class DateUtils {
         }
         
         final var now = nowWithFirstDayMonth();
+        final var currentDate = withFirstDayMonth(date);
         
-        return date.isEqual(now) || date.isAfter(now);
+        return currentDate.isEqual(now) || currentDate.isAfter(now);
     }
     
     public static boolean isDateEqualOrBeforeCurrentMonth(final LocalDate date) {
@@ -23,8 +24,9 @@ public final class DateUtils {
         }
         
         final var now = nowWithFirstDayMonth();
+        final var currentDate = withFirstDayMonth(date);
         
-        return date.isEqual(now) || date.isBefore(now);
+        return currentDate.isEqual(now) || currentDate.isBefore(now);
     }
     
     public static LocalDate nowWithFirstDayMonth() {
