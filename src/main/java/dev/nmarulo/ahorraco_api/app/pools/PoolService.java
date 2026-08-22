@@ -125,7 +125,7 @@ public class PoolService {
                 MAX_PARTICIPANTS));
         }
         
-        if (!DateUtils.isDateNotBeforeCurrentMonth(request.getStartDate())) {
+        if (!DateUtils.isDateEqualOrAfterCurrentMonth(request.getStartDate())) {
             throw new BadRequestException("El mes de inicio no puede ser menor al mes actual.");
         }
         

@@ -7,7 +7,7 @@ public final class DateUtils {
     private DateUtils() {
     }
     
-    public static boolean isDateNotBeforeCurrentMonth(final LocalDate date) {
+    public static boolean isDateEqualOrAfterCurrentMonth(final LocalDate date) {
         if (date == null) {
             return false;
         }
