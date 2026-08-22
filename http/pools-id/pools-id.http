@@ -1,0 +1,11 @@
+### Ver la porra - Como organizador
+GET {{url}}/pools/{{poolPublicId}}
+X-Management-Code: {{managementCode}}
+
+>> ./pools_get_as_organizer.200.json
+
+### Ver la porra - Con un código de gestión que no es el suyo
+GET {{url}}/pools/{{poolPublicId}}
+X-Management-Code: NO-ES-ESTE
+
+>> ./pools_get_wrong_management_code.401.json

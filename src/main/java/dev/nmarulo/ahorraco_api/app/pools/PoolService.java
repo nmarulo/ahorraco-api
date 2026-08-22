@@ -1,8 +1,12 @@
 package dev.nmarulo.ahorraco_api.app.pools;
 
+import dev.nmarulo.ahorraco_api.app.participants.ParticipantRepository;
 import dev.nmarulo.ahorraco_api.app.pools.dtos.CreatePoolReq;
 import dev.nmarulo.ahorraco_api.app.pools.dtos.CreatePoolRes;
+import dev.nmarulo.ahorraco_api.app.pools.dtos.FindInvitationPoolRes;
+import dev.nmarulo.ahorraco_api.app.pools.dtos.FindPublicIdPoolRes;
 import dev.nmarulo.ahorraco_api.commons.exception.BadRequestException;
+import dev.nmarulo.ahorraco_api.commons.services.AccessPoolService;
 import dev.nmarulo.ahorraco_api.commons.util.BigDecimalUtils;
 import dev.nmarulo.ahorraco_api.commons.util.CodeGenerator;
 import dev.nmarulo.ahorraco_api.commons.util.DateUtils;
@@ -11,6 +15,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
+
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -38,6 +44,32 @@ public class PoolService {
     private static final int MAX_PAYMENT_DUE_DAY = 20;
     
     private final PoolRepository poolRepository;
+    
+    private final AccessPoolService accessPoolService;
+    
+    private final ParticipantRepository participantRepository;
+    
+    /**
+     * Retornar información de una porra al organizador.
+     */
+    @Transactional(readOnly = true)
+    public FindPublicIdPoolRes findByPublicId(final UUID publicId, final String managementCode) {
+        final var pool = this.accessPoolService.getByPublicId(publicId);
+        
+        this.accessPoolService.requireOrganizer(pool, managementCode);
+        
+        return PoolMapper.toGetPoolRes(pool, this.participantRepository.countByPool(pool));
+    }
+    
+    /**
+     * Retorna información de una porra a alguien que quiere unirse a la porra.
+     */
+    @Transactional(readOnly = true)
+    public FindInvitationPoolRes findByInvitationToken(final String invitationToken) {
+        final var pool = this.accessPoolService.findByInvitationToken(invitationToken);
+        
+        return PoolMapper.toGetPoolInvitationRes(pool, this.participantRepository.countByPool(pool));
+    }
     
     @Transactional
     public CreatePoolRes create(final CreatePoolReq request) {

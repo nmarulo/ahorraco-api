@@ -2,6 +2,8 @@ package dev.nmarulo.ahorraco_api.app.pools;
 
 import dev.nmarulo.ahorraco_api.app.pools.dtos.CreatePoolReq;
 import dev.nmarulo.ahorraco_api.app.pools.dtos.CreatePoolRes;
+import dev.nmarulo.ahorraco_api.app.pools.dtos.FindInvitationPoolRes;
+import dev.nmarulo.ahorraco_api.app.pools.dtos.FindPublicIdPoolRes;
 
 public final class PoolMapper {
     
@@ -13,6 +15,39 @@ public final class PoolMapper {
                                  .toString();
         
         return new CreatePoolRes(publicId, pool.getManagementCode(), pool.getInvitationToken());
+    }
+    
+    public static FindPublicIdPoolRes toGetPoolRes(final Pool pool, final long joinedCount) {
+        final var response = new FindPublicIdPoolRes();
+        
+        response.setPublicId(pool.getPublicId()
+                                 .toString());
+        response.setName(pool.getName());
+        response.setMonthlyFee(pool.getMonthlyFee());
+        response.setNumParticipants(pool.getNumParticipants());
+        response.setStartDate(pool.getStartDate());
+        response.setPaymentDueDay(pool.getPaymentDueDay());
+        response.setNotes(pool.getNotes());
+        response.setManagementCode(pool.getManagementCode());
+        response.setInvitationToken(pool.getInvitationToken());
+        response.setJoinedCount(joinedCount);
+        
+        return response;
+    }
+    
+    public static FindInvitationPoolRes toGetPoolInvitationRes(final Pool pool, final long joinedCount) {
+        final var response = new FindInvitationPoolRes();
+        
+        response.setPublicId(pool.getPublicId()
+                                 .toString());
+        response.setName(pool.getName());
+        response.setMonthlyFee(pool.getMonthlyFee());
+        response.setNumParticipants(pool.getNumParticipants());
+        response.setStartDate(pool.getStartDate());
+        response.setPaymentDueDay(pool.getPaymentDueDay());
+        response.setJoinedCount(joinedCount);
+        
+        return response;
     }
     
     public static Pool toPool(CreatePoolReq request) {

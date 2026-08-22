@@ -1,0 +1,9 @@
+### Resolver el enlace de invitación - Lo que ve el invitado antes de unirse
+GET {{url}}/pools/invitation/{{invitationToken}}
+
+>> ./pools_by_invitation.200.json
+
+### Resolver el enlace de invitación - Token que no existe
+GET {{url}}/pools/invitation/NOEXISTE12
+
+>> ./pools_by_invitation_not_found.404.json
