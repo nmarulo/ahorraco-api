@@ -47,23 +47,9 @@ public class PaymentService {
         validateRequest(request);
         
         final var pool = this.accessPoolService.getByPublicId(poolPublicId);
-        final var uuid = UuidUtils.toUuid(request.getParticipantPublicId(),
-                                          () -> new BadRequestException(
-                                              "El identificador del participante no tiene un formato válido."));
-        final var participant = getParticipant(pool, uuid);
-        
-        checkDrawIsDone(pool);
-        
-        final var monthWithFirstDay = DateUtils.withFirstDayMonth(request.getMonth());
-        final var turn = getTurn(pool, monthWithFirstDay);
-        
-        checkIsNotTheBeneficiary(turn, participant);
-        
-        Supplier<Payment> paymentSupplier = () -> newPayment(pool, participant, monthWithFirstDay);
-        final var payment = this.paymentRepository.findByPoolAndParticipantAndMonth(pool,
-                                                                                    participant,
-                                                                                    monthWithFirstDay)
-                                                  .orElseGet(paymentSupplier);
+        final var payment = findOrNewPaymentByPoolAndParticipantAndMonth(request.getParticipantPublicId(),
+                                                                         pool,
+                                                                         request.getMonth());
         
         payment.setMarked(true);
         
@@ -71,18 +57,7 @@ public class PaymentService {
     }
     
     private void validateRequest(MarkPaidPaymentReq request) {
-        if (StringUtils.isBlank(request.getParticipantPublicId())) {
-            throw new BadRequestException("El participante no puede estar vacío.");
-        }
-        
-        if (request.getMonth() == null) {
-            throw new BadRequestException("El mes no puede estar vacío.");
-        }
-        
-        //Solo se pueden pagar cuotas del mes actual o anterior.
-        if (!DateUtils.isDateEqualOrBeforeCurrentMonth(request.getMonth())) {
-            throw new BadRequestException("Ese mes todavía no ha llegado.");
-        }
+        validateRequest(request.getParticipantPublicId(), request.getMonth());
     }
     
     /**
