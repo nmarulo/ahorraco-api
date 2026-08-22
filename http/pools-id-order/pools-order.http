@@ -1,0 +1,14 @@
+### Ver el orden de cobro - Sorteado ya
+GET {{url}}/pools/{{poolPublicId}}/order
+
+>> ./pools_order.200.json
+
+### Ver el orden de cobro - Sin sortear todavía
+GET {{url}}/pools/{{poolPublicId}}/order
+
+>> ./pools_order_without_draw.200.json
+
+### Ver el orden de cobro - Porra que no existe
+GET {{url}}/pools/00000000-0000-0000-0000-000000000000/order
+
+>> ./pools_order_not_found.404.json

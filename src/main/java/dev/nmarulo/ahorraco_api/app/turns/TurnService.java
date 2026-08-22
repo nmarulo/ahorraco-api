@@ -5,8 +5,10 @@ import dev.nmarulo.ahorraco_api.app.participants.ParticipantRepository;
 import dev.nmarulo.ahorraco_api.app.pools.Pool;
 import dev.nmarulo.ahorraco_api.app.turns.dtos.CreateDrawReq;
 import dev.nmarulo.ahorraco_api.app.turns.dtos.CreateDrawRes;
+import dev.nmarulo.ahorraco_api.app.turns.dtos.FindOrderRes;
 import dev.nmarulo.ahorraco_api.commons.exception.BadRequestException;
 import dev.nmarulo.ahorraco_api.commons.services.AccessPoolService;
+import dev.nmarulo.ahorraco_api.commons.util.DateUtils;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Strings;
@@ -48,6 +50,17 @@ public class TurnService {
         final var turns = buildTurns(pool, shuffleOrder, organizer);
         
         return TurnMapper.toCreateDrawRes(this.turnRepository.saveAll(turns));
+    }
+    
+    /**
+     * Obtiene el orden de cobro.
+     */
+    @Transactional(readOnly = true)
+    public FindOrderRes findOrder(final UUID poolPublicId) {
+        final var pool = this.accessPoolService.getByPublicId(poolPublicId);
+        final var turns = this.turnRepository.findAllByPoolOrderByPositionAsc(pool);
+        
+        return TurnMapper.toFindOrderRes(turns, DateUtils.nowWithFirstDayMonth());
     }
     
     private void checkDrawIsNotDone(final Pool pool) {
