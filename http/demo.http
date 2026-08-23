@@ -1,0 +1,131 @@
+### Crear porra
+POST {{url}}/pools
+Content-Type: application/json
+
+{
+  "name": "prueba 1",
+  "monthlyFee": 999.00,
+  "numParticipants": 5,
+  "startDate": "2026-08-19",
+  "paymentDueDay": 5,
+  "notes": "pago por bizum"
+}
+
+> {%
+    client.global.set("poolPublicId", response.body.publicId);
+    client.global.set("managementCode", response.body.managementCode);
+    client.global.set("invitationToken", response.body.invitationToken);
+
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 201, "Response status is not 201");
+    });
+%}
+
+### Resolver el enlace de invitación - Lo que ve el invitado antes de unirse
+GET {{url}}/pools/invitation/{{invitationToken}}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+
+### Unirse a la porra
+< {%
+    request.variables.set("participants", [
+        {"fullName": "nicolas", "phone": "123456"},
+        {"fullName": "test 2", "phone": ""},
+        {"fullName": "test 3", "phone": "123456"},
+        {"fullName": "test 4", "phone": ""},
+        {"fullName": "test 5", "phone": "123456"}
+    ])
+%}
+
+POST {{url}}/pools/{{poolPublicId}}/participants
+Content-Type: application/json
+
+{
+  "invitationToken": "{{invitationToken}}",
+  "fullName": "{{$.participants..fullName}}",
+  "phone": "{{$.participants..phone}}"
+}
+
+> {%
+    client.global.set("participantPublicId", response.body.publicId);
+
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 201, "Response status is not 201");
+    });
+%}
+
+### Sortear el orden
+POST {{url}}/pools/{{poolPublicId}}/draw
+Content-Type: application/json
+X-Management-Code: {{managementCode}}
+
+{}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+
+### Ver el orden de cobro - Sorteado ya
+GET {{url}}/pools/{{poolPublicId}}/order
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+
+### Marcar la cuota - El participante dice que ya pagó
+POST {{url}}/pools/{{poolPublicId}}/payments/mark-paid
+Content-Type: application/json
+
+{
+  "participantPublicId": "{{participantPublicId}}",
+  "month": "2026-08-01"
+}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+
+### Mis cuotas - Las que tiene registradas un participante
+GET {{url}}/pools/{{poolPublicId}}/payments/participant/{{participantPublicId}}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+
+### Confirmar la cuota - El organizador la da por recibida
+POST {{url}}/pools/{{poolPublicId}}/payments/confirm-received
+Content-Type: application/json
+X-Management-Code: {{managementCode}}
+
+{
+  "participantPublicId": "{{participantPublicId}}",
+  "month": "2026-08-01"
+}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+
+### Quién ha pagado este mes - Listado del organizador
+GET {{url}}/pools/{{poolPublicId}}/payments?month=2026-08-01
+X-Management-Code: {{managementCode}}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
