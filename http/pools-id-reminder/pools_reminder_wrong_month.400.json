@@ -1,0 +1,7 @@
+{
+  "error": {
+    "detail": "Ese mes no es de esta porra.",
+    "status": 400,
+    "title": "Bad Request"
+  }
+}

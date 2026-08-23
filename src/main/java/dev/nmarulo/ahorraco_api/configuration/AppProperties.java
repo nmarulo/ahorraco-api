@@ -14,4 +14,7 @@ public class AppProperties {
     @Value("${app.cors.allowed-origins:}")
     private String[] corsAllowedOrigins;
     
+    @Value("${app.web.base-url:}")
+    private String webBaseUrl;
+    
 }

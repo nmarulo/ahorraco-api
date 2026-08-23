@@ -1,0 +1,28 @@
+### Recordatorio del mes - Con gente que aún debe
+GET {{url}}/pools/{{poolPublicId}}/reminder?month=2026-08-01
+X-Management-Code: {{managementCode}}
+
+>> ./pools_reminder.200.json
+
+### Recordatorio del mes - Con todas las cuotas confirmadas
+GET {{url}}/pools/{{poolPublicId}}/reminder?month=2026-08-01
+X-Management-Code: {{managementCode}}
+
+>> ./pools_reminder_all_paid.200.json
+
+### Recordatorio del mes - Sin el código de gestión
+GET {{url}}/pools/{{poolPublicId}}/reminder?month=2026-08-01
+
+>> ./pools_reminder_without_management_code.401.json
+
+### Recordatorio del mes - De un mes que todavía no ha llegado
+GET {{url}}/pools/{{poolPublicId}}/reminder?month=2099-01-01
+X-Management-Code: {{managementCode}}
+
+>> ./pools_reminder_future_month.400.json
+
+### Recordatorio del mes - De un mes que no es de esta porra
+GET {{url}}/pools/{{poolPublicId}}/reminder?month=2020-01-01
+X-Management-Code: {{managementCode}}
+
+>> ./pools_reminder_wrong_month.400.json

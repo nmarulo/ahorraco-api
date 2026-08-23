@@ -1,0 +1,8 @@
+{
+  "beneficiary": "Este mes cobra Participante 1 (turno 1 de 4).\nCuota: 99,5 € · Vence el día 10 de agosto.",
+  "debtors": "Todavía faltan por pagar: Participante 4.\nPendientes de que confirme el ingreso: Participante 2.",
+  "greeting": "¡Hola! Toca la cuota de agosto de la porra «prueba I-08».",
+  "link": "Podéis marcar vuestro pago aquí:\nhttp://localhost:4200/pools/a821cf2b-ea1e-4ca1-83c6-f4c33a1023a1/my-payment",
+  "month": "2026-08-01",
+  "paymentDetails": "Bizum al 600 123 456 (Nicolás)"
+}

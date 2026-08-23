@@ -1,6 +1,8 @@
 package dev.nmarulo.ahorraco_api.commons.util;
 
 import java.time.LocalDate;
+import java.time.format.TextStyle;
+import java.util.Locale;
 
 public final class DateUtils {
     
@@ -35,6 +37,11 @@ public final class DateUtils {
     
     public static LocalDate withFirstDayMonth(LocalDate localDate) {
         return localDate.withDayOfMonth(1);
+    }
+    
+    public static String getFullDisplayNameMonth(LocalDate localDate, Locale locale) {
+        return localDate.getMonth()
+                        .getDisplayName(TextStyle.FULL, locale);
     }
     
 }
