@@ -16,7 +16,7 @@
     <description>Ahorraco es una aplicaci\u00f3n para la gesti\u00f3n de porras mensuales (ahorro rotativo) entre grupos de familiares y conocidos</description>
     <url/>
     <properties>
-        <java.version>26</java.version>
+        <java.version>25</java.version>
     </properties>
     <dependencies>
         <dependency>
