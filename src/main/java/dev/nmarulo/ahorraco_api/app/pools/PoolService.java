@@ -6,6 +6,7 @@ import dev.nmarulo.ahorraco_api.app.pools.dtos.CreatePoolRes;
 import dev.nmarulo.ahorraco_api.app.pools.dtos.FindInvitationPoolRes;
 import dev.nmarulo.ahorraco_api.app.pools.dtos.FindPublicIdPoolRes;
 import dev.nmarulo.ahorraco_api.commons.exception.BadRequestException;
+import dev.nmarulo.ahorraco_api.commons.exception.UnauthorizedException;
 import dev.nmarulo.ahorraco_api.commons.services.AccessPoolService;
 import dev.nmarulo.ahorraco_api.commons.util.BigDecimalUtils;
 import dev.nmarulo.ahorraco_api.commons.util.CodeGenerator;
@@ -50,15 +51,24 @@ public class PoolService {
     private final ParticipantRepository participantRepository;
     
     /**
-     * Retornar información de una porra al organizador.
+     * Retornar información de una porra.
      */
     @Transactional(readOnly = true)
     public FindPublicIdPoolRes findByPublicId(final UUID publicId, final String managementCode) {
         final var pool = this.accessPoolService.getByPublicId(publicId);
+        var organizer = false;
         
-        this.accessPoolService.requireOrganizer(pool, managementCode);
+        if (org.apache.commons.lang3.StringUtils.isNotBlank(managementCode)) {
+            if (!this.accessPoolService.isOrganizer(pool, managementCode)) {
+                throw new UnauthorizedException("El código de gestión no es el de esta porra.");
+            }
+            
+            organizer = true;
+        }
         
-        return PoolMapper.toGetPoolRes(pool, this.participantRepository.countByPool(pool));
+        final var joinedCount = this.participantRepository.countByPool(pool);
+        
+        return PoolMapper.toGetPoolRes(pool, joinedCount, organizer);
     }
     
     /**

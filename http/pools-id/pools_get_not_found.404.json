@@ -1,0 +1,7 @@
+{
+  "error": {
+    "detail": "No existe ninguna porra con ese identificador.",
+    "status": 404,
+    "title": "Not Found"
+  }
+}

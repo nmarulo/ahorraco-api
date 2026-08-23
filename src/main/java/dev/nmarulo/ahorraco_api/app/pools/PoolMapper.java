@@ -17,7 +17,7 @@ public final class PoolMapper {
         return new CreatePoolRes(publicId, pool.getManagementCode(), pool.getInvitationToken());
     }
     
-    public static FindPublicIdPoolRes toGetPoolRes(final Pool pool, final long joinedCount) {
+    public static FindPublicIdPoolRes toGetPoolRes(final Pool pool, final long joinedCount, final boolean organizer) {
         final var response = new FindPublicIdPoolRes();
         
         response.setPublicId(pool.getPublicId()
@@ -28,9 +28,12 @@ public final class PoolMapper {
         response.setStartDate(pool.getStartDate());
         response.setPaymentDueDay(pool.getPaymentDueDay());
         response.setNotes(pool.getNotes());
-        response.setManagementCode(pool.getManagementCode());
-        response.setInvitationToken(pool.getInvitationToken());
         response.setJoinedCount(joinedCount);
+        
+        if (organizer) {
+            response.setManagementCode(pool.getManagementCode());
+            response.setInvitationToken(pool.getInvitationToken());
+        }
         
         return response;
     }
