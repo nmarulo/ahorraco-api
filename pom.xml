@@ -10,23 +10,11 @@
     </parent>
     <groupId>dev.nmarulo</groupId>
     <artifactId>ahorraco-api</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.1</version>
     <packaging>war</packaging>
     <name>ahorraco-api</name>
-    <description>ahorraco-api</description>
+    <description>Ahorraco es una aplicaci\u00f3n para la gesti\u00f3n de porras mensuales (ahorro rotativo) entre grupos de familiares y conocidos</description>
     <url/>
-    <licenses>
-        <license/>
-    </licenses>
-    <developers>
-        <developer/>
-    </developers>
-    <scm>
-        <connection/>
-        <developerConnection/>
-        <tag/>
-        <url/>
-    </scm>
     <properties>
         <java.version>26</java.version>
     </properties>
@@ -92,6 +80,7 @@
     </dependencies>
 
     <build>
+        <finalName>ahorraco-api</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
