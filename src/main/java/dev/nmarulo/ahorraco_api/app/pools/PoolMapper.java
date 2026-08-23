@@ -4,6 +4,7 @@ import dev.nmarulo.ahorraco_api.app.pools.dtos.CreatePoolReq;
 import dev.nmarulo.ahorraco_api.app.pools.dtos.CreatePoolRes;
 import dev.nmarulo.ahorraco_api.app.pools.dtos.FindInvitationPoolRes;
 import dev.nmarulo.ahorraco_api.app.pools.dtos.FindPublicIdPoolRes;
+import org.apache.commons.lang3.StringUtils;
 
 public final class PoolMapper {
     
@@ -56,7 +57,7 @@ public final class PoolMapper {
     public static Pool toPool(CreatePoolReq request) {
         final var pool = new Pool();
         
-        pool.setName(request.getName());
+        pool.setName(StringUtils.trim(request.getName()));
         pool.setMonthlyFee(request.getMonthlyFee());
         pool.setNumParticipants(request.getNumParticipants());
         pool.setStartDate(request.getStartDate());

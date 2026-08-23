@@ -13,9 +13,9 @@ import dev.nmarulo.ahorraco_api.commons.util.CodeGenerator;
 import dev.nmarulo.ahorraco_api.commons.util.DateUtils;
 import dev.nmarulo.ahorraco_api.commons.util.IntegerUtils;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
 
 import java.util.UUID;
 
@@ -58,7 +58,7 @@ public class PoolService {
         final var pool = this.accessPoolService.getByPublicId(publicId);
         var organizer = false;
         
-        if (org.apache.commons.lang3.StringUtils.isNotBlank(managementCode)) {
+        if (StringUtils.isNotBlank(managementCode)) {
             if (!this.accessPoolService.isOrganizer(pool, managementCode)) {
                 throw new UnauthorizedException("El código de gestión no es el de esta porra.");
             }
@@ -96,11 +96,10 @@ public class PoolService {
     }
     
     private String getManagementCode(CreatePoolReq request) {
-        final var managementCodeReq = request.getManagementCode();
+        final var managementCodeReq = StringUtils.trimToEmpty(request.getManagementCode());
         
-        if (StringUtils.hasText(managementCodeReq)) {
-            return managementCodeReq.trim()
-                                    .toUpperCase();
+        if (StringUtils.isNotBlank(managementCodeReq)) {
+            return managementCodeReq.toUpperCase();
         }
         
         return CodeGenerator.managementCode();
@@ -119,9 +118,13 @@ public class PoolService {
     }
     
     private void validateRequest(CreatePoolReq request) {
-        final var name = request.getName();
+        final var name = StringUtils.trimToEmpty(request.getName());
         
-        if (!StringUtils.hasText(name) || name.length() > MAX_NAME_LENGTH) {
+        if (StringUtils.isBlank(name)) {
+            throw new BadRequestException("El nombre no puede estar vacío.");
+        }
+        
+        if (name.length() > MAX_NAME_LENGTH) {
             throw new BadRequestException("El nombre no puede pasar de %d caracteres.".formatted(MAX_NAME_LENGTH));
         }
         
@@ -147,17 +150,16 @@ public class PoolService {
         
         final var notes = request.getNotes();
         
-        if (StringUtils.hasText(notes) && notes.length() > MAX_NOTES_LENGTH) {
+        if (StringUtils.length(notes) > MAX_NOTES_LENGTH) {
             throw new BadRequestException("La nota para el grupo no puede pasar de %d caracteres.".formatted(
                 MAX_NOTES_LENGTH));
         }
         
-        final var managementCode = request.getManagementCode();
+        final var managementCode = StringUtils.trimToEmpty(request.getManagementCode());
         
-        if (StringUtils.hasText(managementCode) && !IntegerUtils.isInRange(managementCode.trim()
-                                                                                         .length(),
-                                                                           MIN_MANAGEMENT_CODE_LENGTH,
-                                                                           MAX_MANAGEMENT_CODE_LENGTH)) {
+        if (StringUtils.isNotBlank(managementCode) && !IntegerUtils.isInRange(managementCode.length(),
+                                                                              MIN_MANAGEMENT_CODE_LENGTH,
+                                                                              MAX_MANAGEMENT_CODE_LENGTH)) {
             throw new BadRequestException("El código de gestión tiene que tener entre %d y %d caracteres.".formatted(
                 MIN_MANAGEMENT_CODE_LENGTH,
                 MAX_MANAGEMENT_CODE_LENGTH));
