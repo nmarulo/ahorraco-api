@@ -13,6 +13,7 @@ import dev.nmarulo.ahorraco_api.commons.util.DateUtils;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Strings;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -53,7 +54,7 @@ public class TurnService {
         final var shuffleOrder = shuffleOrder(participants, organizer);
         final var turns = buildTurns(pool, shuffleOrder, organizer);
         
-        return TurnMapper.toCreateDrawRes(this.turnRepository.saveAll(turns));
+        return TurnMapper.toCreateDrawRes(saveTurns(turns));
     }
     
     /**
@@ -176,6 +177,19 @@ public class TurnService {
         }
         
         return pool.getNumParticipants() - 1L;
+    }
+    
+    /**
+     * En caso de que entre dos peticiones a la vez para la misma porra.
+     * <p>
+     * NOTA: Aunque la excepción ya se controla en {@link dev.nmarulo.ahorraco_api.commons.handler.ControllerExceptionHandler#handleDataIntegrityViolationException}, aquí retornamos un mensaje personalizado.
+     */
+    private List<Turn> saveTurns(final List<Turn> turns) {
+        try {
+            return this.turnRepository.saveAll(turns);
+        } catch (DataIntegrityViolationException ex) {
+            throw new BadRequestException("El sorteo de esta porra ya está hecho.", ex);
+        }
     }
     
 }
