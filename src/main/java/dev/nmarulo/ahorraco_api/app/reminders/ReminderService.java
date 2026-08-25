@@ -189,7 +189,7 @@ public class ReminderService {
         
         return """
             Podéis marcar vuestro pago aquí:
-            %s/pools/%s/my-payment""".formatted(baseUrl, pool.getPublicId());
+            %s/pools/%s/simple""".formatted(baseUrl, pool.getPublicId());
     }
     
 }
